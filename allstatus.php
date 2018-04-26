@@ -17,7 +17,14 @@
 			console.log(eid);
 			$.get("/~" + eid + "/ct310/index.php/federation/status", function(response){	
 				console.log(response);
+				//Checking the variable type
+				if (jQuery.type(response)==="string"){
+				response = JSON.parse(response);
 				$('#response').append(response.status);
+			}else {
+				$('#response').append(response.status);
+			}
+				
 			});
 		}	
 	});
