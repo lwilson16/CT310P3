@@ -40,8 +40,7 @@ class Controller_Federation extends Controller{
 	  $Florida = new florida();
 	  $attraction = Florida::selectAttraction($attractionID);
 	  //print_r($attraction[0]['picture'])
-	  $picture = "" . $attraction[0]['picture'];
-	  $array = explode ('/', $picture);
+	  $array = explode ('/', $attraction[0]['picture']);
 	  //print_r($array);
 	  $response = Response::forge(file_get_contents(Asset::get_file($array[2], 'img')));
 	  $response->set_header('Content-Type', 'image/jpeg');
