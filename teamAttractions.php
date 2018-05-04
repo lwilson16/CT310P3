@@ -8,19 +8,26 @@
 <body>
 	<div class="container">
 		<h3> Other Team Attractions </h3>
-	<p id="response">
+	<div id="response">
 	
-	</p>
+	</div>
 	</div>
 <script>
-function getWebDataJSON(site){
+function getWebDataJSON(site, eid){
+	
 	if(jQuery.type(site) === "object"){
 		$(site).each(function(index, value){
+			var eid = value.eid;
 			console.log(value.id);
-			$('<a>').attr('href', 'cs.colostate.edu/~lwilson1/ct310/index.php/Florida/getListing/' + value.id).appendTo("response")
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response');
+		});
+	}else if(jQuery.type(site) === "string"){
+		site = JSON.parse(site);
+		$(site).each(function(index, value){
+			console.log(value.id);
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response');
 		});
 	}
-
 	
 }
 $.get("/~ct310/yr2018sp/master.json", function(data){
@@ -36,10 +43,9 @@ $.get("/~ct310/yr2018sp/master.json", function(data){
 				
 					if(response.status == "open"){
 						$.get("/~" + eid + "/ct310/index.php/federation/listing",  function(site, textStatus, xhr){
-							getWebDataJSON(site);
+							getWebDataJSON(site, eid);
 						});
 					}					
-
 				
 				}
 				else{
@@ -50,15 +56,13 @@ $.get("/~ct310/yr2018sp/master.json", function(data){
 						catch(err){
 							$('<p>').attr('id', 'closed').text("ERROR").appendTo('#response');
 						}
-
 						if(response.status == "open"){
 							$.get("/~" + eid + "/ct310/index.php/federation/listing",  function(site, textStatus, xhr){
-								getWebDataJSON(site);
+								getWebDataJSON(site, eid);
 							});
 						}
 				
 					}
-
 			}				
 		});
 	}
