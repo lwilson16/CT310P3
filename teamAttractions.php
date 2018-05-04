@@ -8,6 +8,14 @@
 <body>
 	<div class="container">
 		<h3> Other Team Attractions </h3>
+			<?php 
+		$user = Session::get('username');
+		if(!isset($user)){
+			$user = $guest;
+		}
+	?>
+
+
 	<div id="response">
 	
 	</div>
@@ -18,14 +26,14 @@ function getWebDataJSON(site, eid){
 	if(jQuery.type(site) === "object"){
 		$(site).each(function(index, value){
 			var eid = value.eid;
-			console.log(value.id);
-			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response');
+			//console.log("inside object if statement");
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response').before("<br />");
 		});
 	}else if(jQuery.type(site) === "string"){
 		site = JSON.parse(site);
 		$(site).each(function(index, value){
-			console.log(value.id);
-			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response');
+			//console.log("Inside string if statement");
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response').before("<br />");
 		});
 	}
 	
@@ -54,7 +62,7 @@ $.get("/~ct310/yr2018sp/master.json", function(data){
 							response = JSON.parse(response);
 						}
 						catch(err){
-							$('<p>').attr('id', 'closed').text("ERROR").appendTo('#response');
+							$('<p>').attr('id', 'closed').text("ERROR cannot parse").appendTo('#response');
 						}
 						if(response.status == "open"){
 							$.get("/~" + eid + "/ct310/index.php/federation/listing",  function(site, textStatus, xhr){
