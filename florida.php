@@ -8,7 +8,6 @@ class Controller_Florida extends Controller
 		$username = filter_var(Input::post('username'), FILTER_SANITIZE_STRING);
 	
 		$password = filter_var(Input::post('password'), FILTER_SANITIZE_STRING);
-
 		$Florida = new florida();
 	
 		$users = Florida::getUsers();
@@ -44,7 +43,6 @@ class Controller_Florida extends Controller
 		return $layout;
 	
 	}
-
 	
 	public function action_welcome(){
 	    $layout = View::forge('Florida/layout');
@@ -62,6 +60,14 @@ class Controller_Florida extends Controller
 		return $layout;
 	
 	}
+	 public function action_getListing($id, $eid){
+	  
+	  $listingView = View::forge('Florida/listingView');
+	  $listingView->set_safe('id', $id);
+	  $listingView->set_safe('eid', $eid);
+	  
+	  return $listingView;
+  }
 	
       public function action_aboutus(){
         
@@ -92,7 +98,6 @@ class Controller_Florida extends Controller
 	       
 		$layout->content = Response::forge($content);
 		return $layout;
-
 	}
   
 	
@@ -175,7 +180,6 @@ class Controller_Florida extends Controller
 		$attractionName = filter_var(Input::post("attractionName"), FILTER_SANITIZE_STRING);
 		$description = filter_var(Input::post("description"), FILTER_SANITIZE_STRING);
 		$picture = Input::post("picture");
-
 		Upload::process($config);
 		if(Upload::is_Valid()){
 			Upload::save();
