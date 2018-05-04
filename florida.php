@@ -61,12 +61,23 @@ class Controller_Florida extends Controller
 	
 	}
 	 public function action_getListing($id, $eid){
-	  
-	  $listingView = View::forge('Florida/listingView');
-	  $listingView->set_safe('id', $id);
-	  $listingView->set_safe('eid', $eid);
-	  
-	  return $listingView;
+		 $layout = View::forge('Florida/layout');
+		 $content = View::forge('Florida/listingView');
+		 $Florida = new florida();
+        
+		$attractions = Florida::getAttraction();
+        
+                $layout->set_safe("attractions", $attractions);
+
+		 $layout->set_safe('id', $id);
+	 	 $layout->set_safe('eid', $eid);
+		 $content->set_safe('id', $id);
+		 $content->set_safe('eid', $eid);
+		 $layout->set_safe("guest","guest");
+		 $content->set_safe("guest", "guest");	
+
+		 $layout->content=Response::forge($content);
+		 return $layout;
   }
 	
       public function action_aboutus(){
@@ -89,12 +100,15 @@ class Controller_Florida extends Controller
 		     $layout = View::forge('Florida/layout');
         $content = View::forge('Florida/teamAttractions.php');
 	   
-		$layout->content = Response::forge($content);
+		     $layout->content = Response::forge($content);
+		  $layout->set_safe("guest","guest");
+		 $content->set_safe("guest", "guest");	
+
 		$Florida = new florida();
         
 		$attractions = Florida::getAttraction();
         
-        $layout->set_safe("attractions", $attractions);
+        	$layout->set_safe("attractions", $attractions);
 	       
 		$layout->content = Response::forge($content);
 		return $layout;
