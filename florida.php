@@ -60,7 +60,7 @@ class Controller_Florida extends Controller
 		return $layout;
 	
 	}
-	 public function action_getListing($id, $eid){
+	 public function action_getListing($id, $eid, $attrName){
 		 $layout = View::forge('Florida/layout');
 		 $content = View::forge('Florida/listingView');
 		 $Florida = new florida();
@@ -71,8 +71,10 @@ class Controller_Florida extends Controller
 
 		 $layout->set_safe('id', $id);
 	 	 $layout->set_safe('eid', $eid);
+		 $layout->set_safe('attrName', $attrName);
 		 $content->set_safe('id', $id);
 		 $content->set_safe('eid', $eid);
+		 $content->set_safe('attrName', $attrName);
 		 $layout->set_safe("guest","guest");
 		 $content->set_safe("guest", "guest");	
 
@@ -210,9 +212,15 @@ class Controller_Florida extends Controller
 	public function action_addItem($attractionID, $username){
         
 		$Florida = new florida();
-		$attractionName= Florida::getAttractionName($attractionID);
+		$attractionName = Florida::getAttractionName($attractionID);
 		Florida::addItem($attractionID, $username, ($attractionName[0]['attractionName']));
 	   	Response::redirect('Florida/cart/'.$username);
+	}
+	
+	public function action_addListing($id, $username, $attrName){
+		$Florida = new florida();
+		Florida::addItem($id, $username, $attrName);
+		Response::redirect('Florida/cart/'.$username);
 	}
 	//$attractionID, $itemOID,$username
 	public function action_deleteItem($itemID,$username){
@@ -245,14 +253,14 @@ class Controller_Florida extends Controller
 		$adminMsg = $name . " has ordered: \n";
 		$orders = "";
 		$endMsg = "Please come again!";
-		$kenny = "nguyenkd@rams.colostate.edu";
+		$yasmin = "yalshafai@gmail.com";
 		$lettia = "lwilson1@rams.colostate.edu";
 		foreach($cart as $item){
 			$orders .= $item['attractionName'] . "\n";
 		}
 		
 		mail($email, "Florida Brochures [Ordered]", $custMsg . $orders . $endMsg );
-		mail($kenny, "Florida Brochures [Ordered]", $adminMsg . $orders );
+		mail($yasmin, "Florida Brochures [Ordered]", $adminMsg . $orders );
 	 	mail($lettia, "Florida Brochures [Ordered]", $custMsg . $orders );
 		florida::deleteCart($username);
 		Response::redirect('Florida/cart/'.$username);

@@ -22,18 +22,16 @@
 	</div>
 <script>
 function getWebDataJSON(site, eid){
-	
 	if(jQuery.type(site) === "object"){
 		$(site).each(function(index, value){
 			var eid = value.eid;
-			//console.log("inside object if statement");
-			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response').before("<br />");
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid + '/' + value.name).text(value.name).appendTo('#response').before("<br />");
 		});
 	}else if(jQuery.type(site) === "string"){
 		site = JSON.parse(site);
 		$(site).each(function(index, value){
 			//console.log("Inside string if statement");
-			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid).text(value.name).appendTo('#response').before("<br />");
+			$('<a>').attr('href', '/~lwilson1/ct310/index.php/Florida/getListing/' + value.id + '/' + eid + '/' + value.name).text(value.name).appendTo('#response').before("<br />");
 		});
 	}
 	
